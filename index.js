@@ -15,8 +15,19 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
   serverApi: ServerApiVersion.v1,
 });
-console.log(uri);
-console.log("connected database");
+async function run() {
+  try {
+    const serviceCollection = client.db("photography").collection("services");
+    app.get("/services", async (req, res) => {
+      const query = {};
+      const cursor = serviceCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+  } finally {
+  }
+}
+run().catch((err) => console.error(err));
 
 app.get("/", (req, res) => {
   res.send("photography server is running");
