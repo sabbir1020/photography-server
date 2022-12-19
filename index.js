@@ -18,6 +18,18 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const serviceCollection = client.db("photography").collection("services");
+
+    // mongodb post
+
+    app.post("/services", async (req, res) => {
+      const service = req.body;
+      //   console.log(service);
+      const result = await serviceCollection.insertOne(service);
+      res.send(result);
+    });
+
+    // mongodb server theke data
+
     app.get("/services", async (req, res) => {
       const query = {};
       const cursor = serviceCollection.find(query);
