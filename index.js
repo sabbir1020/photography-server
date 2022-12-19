@@ -18,6 +18,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const serviceCollection = client.db("photography").collection("services");
+    const reviewCollection = client.db("photography").collection("reviews");
 
     // mongodb post
 
@@ -42,6 +43,14 @@ async function run() {
       const query = { _id: ObjectId(id) };
       const service = await serviceCollection.findOne(query);
       res.send(service);
+    });
+
+    //  review api
+    app.post("/reviews", async (req, res) => {
+      const review = req.body;
+      console.log(review);
+      const result = await reviewCollection.insertOne(review);
+      res.send(result);
     });
   } finally {
   }
