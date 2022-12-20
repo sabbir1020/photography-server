@@ -19,8 +19,18 @@ async function run() {
   try {
     const serviceCollection = client.db("photography").collection("services");
     const reviewCollection = client.db("photography").collection("reviews");
+    const subscribeCollection = client
+      .db("photography")
+      .collection("subscribe");
 
     // mongodb post
+
+    app.post("/subscribe", async (req, res) => {
+      const subscribe = req.body;
+      //   console.log(subscribe);
+      const result = await subscribeCollection.insertOne(subscribe);
+      res.send(result);
+    });
 
     app.post("/services", async (req, res) => {
       const service = req.body;
